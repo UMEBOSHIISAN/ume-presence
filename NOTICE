@@ -1,0 +1,17 @@
+UME Presence
+
+UME Presence is a UMEBOSHIISAN distribution of Persona, originally developed
+by xikhar at https://github.com/xikhar/persona.
+
+The Persona application core is distributed under the MIT License included in
+LICENSE. The original copyright notice, "Copyright (c) 2026 xikhar", is
+preserved there.
+
+UMEBOSHIISAN modifications and distribution metadata do not erase or replace
+that upstream provenance.
+
+External character packs, including character names, designs, likenesses,
+images, voice profiles, and other character intellectual property, are
+separate from the application core. They are not covered by the Persona core
+license merely because they can be loaded by UME Presence. Each pack's own
+terms and distributionAllowed declaration remain authoritative.

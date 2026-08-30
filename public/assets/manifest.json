@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "distributionAllowed": false,
+  "assets": [
+    { "path": "model.vrm" },
+    { "path": "animations/idle.vrma" },
+    { "path": "animations/talk1.vrma" },
+    { "path": "animations/talk2.vrma" },
+    { "path": "animations/talk3.vrma" },
+    { "path": "animations/greeting.vrma" },
+    { "path": "animations/celebrate1.vrma" },
+    { "path": "animations/celebrate2.vrma" },
+    { "path": "animations/dance1.vrma" },
+    { "path": "animations/dance2.vrma" }
+  ]
+}

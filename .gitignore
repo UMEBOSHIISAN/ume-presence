@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+.worktrees/
+
+# Generated application and installer output
+dist/
+release/
+native/bin/
+coverage/
+.vite/
+.cache/
+.eslintcache
+.nyc_output/
+*.tsbuildinfo
+*.tgz
+
+# Local character media
+/public/local-character/
+*.vrm
+*.vrma
+
+# Native compiler output
+*.dSYM/
+*.exp
+*.ilk
+*.lib
+*.obj
+*.pdb
+core
+core.*
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.p12
+*.pfx
+*.pem
+
+# Logs and package-manager diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
+
+# Original local implementation brief
+INSTRUCTIONS.md
