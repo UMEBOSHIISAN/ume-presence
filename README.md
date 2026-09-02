@@ -1,14 +1,40 @@
 # UME Presence
 
-> A visible local presence for your AI conversations. Use the built-in minimal
-> presence, or customize it with a Character Pack.
+A human-facing local presence for AI-assisted work.
+
+UME Presence is a visible, local presentation surface; its authority is none.
+
+![Source-built Default Presence renderer](docs/images/default-presence.png)
+
+_This is a source-built renderer capture with no Character Pack. It is not a
+signed binary capture or clean-machine acceptance proof._
+
+**Status: Source Preview**
+
+**Binary release: Not yet published (HOLD).**
+
+## Source quick start (macOS / Node.js 24)
+
+The current public surface is source-first. On macOS, the following are
+required: Node.js 24 and Xcode Command Line Tools with the macOS SDK.
+
+```bash
+npm ci
+npm run native:build
+npm run native:test
+npm run demo
+```
+
+`npm run demo` builds and starts the current source checkout. It does not create
+a signed, notarized, packaged, or clean-machine-accepted binary release.
+
+## Product boundary and limitations
 
 - **Core product:** UME Presence with a built-in neutral Default Presence
 - **Optional Character Pack:** installed separately as external local data
 
-**Publication status:** this snapshot is a public-source candidate. Binary
-release remains **HOLD** until exact artifacts pass package inspection,
-signing/notarization policy, and clean-machine acceptance.
+The binary release remains **HOLD** until exact artifacts pass package
+inspection, signing/notarization policy, and clean-machine acceptance.
 
 UME Presence displays a local visual presence and offers bounded presentation
 controls to supported local clients. With no Character Pack, launch succeeds
@@ -19,18 +45,21 @@ model, autonomous worker, router, execution governor, knowledge source of
 truth, Mothership replacement, or ume-harness replacement. Its authority is
 none: it never receives decision or execution authority.
 
-## Start here on macOS
+## Future binary lifecycle
 
-The primary Freeze target is Apple silicon macOS 14.2 or newer. You need:
+No ZIP or DMG is currently published. If a future binary release passes the
+separate release gates, the primary Freeze target is Apple silicon macOS 14.2
+or newer. That future installed-app workflow may require:
 
-- a supplied UME Presence ZIP or DMG whose SHA-256 you can verify;
-- Node.js 24 or newer only for the optional automatic completion hook;
+- a released UME Presence ZIP or DMG with a published SHA-256;
+- Node.js 24 or newer only when a source-based integration step requires it;
 - optionally, an external Character Pack transferred separately; and
 - AivisSpeech plus the pack's compatible local voice model only when
   character-specific speech is required. AivisSpeech is external and is not
   installed or removed by UME Presence.
 
-Install the app as `/Applications/UME Presence.app`, then follow
+After a binary is published, install the app as
+`/Applications/UME Presence.app`, then follow
 [Installation and optional character onboarding](docs/INSTALLATION.md). Core
 installation ends successfully when the built-in Default Presence appears.
 The optional pack workflow is copy, validate, select, and restart—never a
@@ -126,9 +155,10 @@ closed. A pack chooses a provider already reviewed and registered in Persona
 core; it cannot load code or add a provider. Selection is written atomically
 only after full validation and becomes active on the next process start.
 
-`distributionAllowed` remains authoritative for redistribution. It does not
-embed a pack in UME Presence, and it does not relicense character names,
-likenesses, avatars, voice models, or profiles under the core's MIT license.
+`distributionAllowed` is app safety metadata used to fail closed when a pack
+is not marked for distribution. It is not proof of ownership, license,
+consent, or redistribution rights, and it grants none of those rights. A pack
+still needs separately reviewed provenance, permission, and release terms.
 
 ## Presentation controls
 

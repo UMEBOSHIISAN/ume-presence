@@ -2,7 +2,7 @@
   "schema": "ume.public-release-identity.v2",
   "publicRepository": "UMEBOSHIISAN/ume-presence",
   "sourceRepository": "UMEBOSHIISAN/persona-private",
-  "sourceCommit": "c7ebb1f79cd5eacbe9dca08728994e49f2890375",
+  "sourceCommit": "d48bf74a8648996a093e871491a2eb2ceeb8af3a",
   "history": "fresh-public-snapshot",
   "trustedAncestor": "ef97c6bad8328443fc2cd540ac9ae47d71630c78",
   "binaryRelease": "HOLD",
@@ -16,8 +16,8 @@
     "native/bin"
   ],
   "payload": {
-    "fileCount": 167,
-    "rootSha256": "3f36ce2d192839044679c2100885c6ae5393a775e6b1f87ce22fd0d94c4a2f09",
+    "fileCount": 168,
+    "rootSha256": "4c11ead471c3e96364d6e0f92e9d01e602c9e035ed63eb0b512a9d9fa67d4241",
     "files": [
       {
         "path": ".gitattributes",
@@ -46,8 +46,8 @@
       {
         "path": "ASSET_LICENSES.md",
         "mode": "100644",
-        "sha256": "c37fb6c55b2caa61ffc11b5a112d3165117a76169327d81d0a906a2f19b2ae65",
-        "bytes": 2065
+        "sha256": "928498e477b6bf2372ee91073fe1ea3824a55a28ec639e4c4c6be4a08c3987c8",
+        "bytes": 2883
       },
       {
         "path": "CHANGELOG.md",
@@ -58,26 +58,26 @@
       {
         "path": "LICENSE",
         "mode": "100644",
-        "sha256": "4f40f793b197f7b342ff93afd541cb307be003b73a9a0c8dae2680a9484987da",
-        "bytes": 1138
+        "sha256": "a662aa3764edd8e838ba2c3cfbadd45406c39dcb839a10f8b92f85e2ea3d84f8",
+        "bytes": 1063
       },
       {
         "path": "NOTICE",
         "mode": "100644",
-        "sha256": "f6800f5bebaf45538eea295734fa4def7388a401cb87728a2a69fdab7b45092e",
-        "bytes": 773
+        "sha256": "de81161d9995f34a6910bfdccd850cc8d0032ae2881d379887d8197698ebfdb0",
+        "bytes": 411
       },
       {
         "path": "PUBLIC_RELEASE_PATHS.txt",
         "mode": "100644",
-        "sha256": "416fef9d21d0deab33320b032f30508f2fce5206792e2fe8275dfe3d132ab532",
-        "bytes": 4942
+        "sha256": "c5238ea701c95594d5e27396337ce87297fac2a0c27ab6d4e5466fd4bfdbb6ce",
+        "bytes": 4975
       },
       {
         "path": "README.md",
         "mode": "100644",
-        "sha256": "ea4c7d2132bdd31feec9f1c9619749eb3392cfeab394e9161d8e85e75fde79c1",
-        "bytes": 8100
+        "sha256": "9038c50a5d45f3d0d89d135f609ee31059bebc4abe88fee0f0870c22782f6130",
+        "bytes": 9026
       },
       {
         "path": "SECURITY.md",
@@ -138,6 +138,12 @@
         "mode": "100644",
         "sha256": "0c8b98c8ed0e45c6f89d5c5e00a1cc510e1d4d7fcbcbed2620af5e5801922908",
         "bytes": 9748
+      },
+      {
+        "path": "docs/images/default-presence.png",
+        "mode": "100644",
+        "sha256": "46fdd6b0ffed54bf3473125c718a7730e8accf3ad114f76d4579404cff96e86d",
+        "bytes": 63349
       },
       {
         "path": "electron/aivis-engine-adapter.cjs",
@@ -772,8 +778,8 @@
       {
         "path": "scripts/stage-public-release.test.cjs",
         "mode": "100644",
-        "sha256": "9a87f43c53d05cfed390255d6f6bcf25a36e1a0780c97b820ffbb88f793e9f5f",
-        "bytes": 10045
+        "sha256": "83b539a97e3a1078bfe24480a170e4377fe8b393f1919353905228a23889baf7",
+        "bytes": 14645
       },
       {
         "path": "scripts/test-native.cjs",
