@@ -11,11 +11,26 @@ application bundle. Their avatar, likeness, voice model, provider profile,
 manifest, and provenance retain their own rights. Installation does not
 relicense them under MIT.
 
-`distributionAllowed` is authoritative for pack redistribution. Private brand
-packs keep it `false` and must not be committed, packaged, uploaded, or used
-as public examples. A separately redistributed pack needs its own reviewed
-license, provenance, validation, and release channel; it still remains
-external to UME Presence.
+`distributionAllowed` is app safety metadata used by UME Presence to fail
+closed when a pack is not marked for distribution. It is not proof of
+ownership, license, consent, or redistribution rights, and it grants none of
+those rights. Private brand packs keep it `false` and must not be committed,
+packaged, uploaded, or used as public examples. A separately redistributed
+pack needs its own reviewed license, provenance, validation, and release
+channel; it still remains external to UME Presence.
+
+## Documentation screenshot
+
+`docs/images/default-presence.png` is a 960×640 capture of the current
+source-built Vite renderer in its neutral Default Presence state. The renderer
+was served on loopback with no Character Pack and contains only the core
+code-rendered presence surface; no private desktop or personal data is shown.
+The capture is not evidence of a signed binary, packaged artifact, or
+clean-machine acceptance.
+
+This screenshot provenance applies only to that renderer capture. It makes no
+ownership, licensing, consent, or redistribution claim for application icons
+or any other asset whose rights are not separately documented.
 
 ## Application package
 

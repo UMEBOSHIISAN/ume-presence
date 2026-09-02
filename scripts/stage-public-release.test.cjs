@@ -153,6 +153,106 @@ test("public source closure excludes dormant binary release automation", () => {
   );
 });
 
+test("public first screen is source-first and keeps binary release on hold", () => {
+  const readme = fs.readFileSync(path.join(__dirname, "..", "README.md"), "utf8");
+  const orderedClaims = [
+    "# UME Presence",
+    "A human-facing local presence for AI-assisted work.",
+    "UME Presence is a visible, local presentation surface; its authority is none.",
+    "![Source-built Default Presence renderer](docs/images/default-presence.png)",
+    "**Status: Source Preview**",
+    "**Binary release: Not yet published (HOLD).**",
+    "## Source quick start (macOS / Node.js 24)",
+    "Node.js 24 and Xcode Command Line Tools with the macOS SDK",
+    "npm ci",
+    "npm run native:build",
+    "npm run native:test",
+    "npm run demo",
+    "## Product boundary and limitations",
+  ];
+  let previousIndex = -1;
+  for (const claim of orderedClaims) {
+    const claimIndex = readme.indexOf(claim);
+    assert.ok(claimIndex > previousIndex, `README claim is missing or out of order: ${claim}`);
+    previousIndex = claimIndex;
+  }
+
+  const firstScreen = readme.slice(0, readme.indexOf("## Product boundary and limitations"));
+  assert.doesNotMatch(firstScreen, /supplied[^\n]*(?:ZIP|DMG)|(?:ZIP|DMG)[^\n]*supplied/iu);
+  assert.match(firstScreen, /source-built renderer capture with no Character Pack/iu);
+  assert.match(
+    firstScreen,
+    /not a\s+signed binary capture or clean-machine acceptance proof/iu,
+  );
+});
+
+test("public renderer screenshot is a real staged PNG", () => {
+  const relativeImagePath = "docs/images/default-presence.png";
+  const imagePath = path.join(__dirname, "..", relativeImagePath);
+  const publicPaths = fs.readFileSync(
+    path.join(__dirname, "..", "PUBLIC_RELEASE_PATHS.txt"),
+    "utf8",
+  ).trim().split("\n");
+
+  assert.equal(fs.existsSync(imagePath), true);
+  assert.equal(fs.lstatSync(imagePath).isFile(), true);
+  const image = fs.readFileSync(imagePath);
+  assert.deepEqual(image.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  assert.ok(image.readUInt32BE(16) > 0);
+  assert.ok(image.readUInt32BE(20) > 0);
+  assert.equal(publicPaths.includes(relativeImagePath), true);
+  assert.equal(publicPaths.includes("scripts/stage-public-release.test.cjs"), true);
+});
+
+test("LICENSE remains the exact upstream MIT text", () => {
+  const upstreamAuthor = ["xik", "har"].join("");
+  const expectedLicense = `MIT License
+
+Copyright (c) 2026 ${upstreamAuthor}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+`;
+
+  assert.equal(fs.readFileSync(path.join(__dirname, "..", "LICENSE"), "utf8"), expectedLicense);
+});
+
+test("asset guidance keeps rights separate from distributionAllowed metadata", () => {
+  const readme = fs.readFileSync(path.join(__dirname, "..", "README.md"), "utf8");
+  const assetLicenses = fs.readFileSync(
+    path.join(__dirname, "..", "ASSET_LICENSES.md"),
+    "utf8",
+  );
+  const license = fs.readFileSync(path.join(__dirname, "..", "LICENSE"), "utf8");
+  const notice = fs.readFileSync(path.join(__dirname, "..", "NOTICE"), "utf8");
+  const guidance = `${readme}\n${assetLicenses}`;
+
+  assert.match(assetLicenses, /MIT license[\s\S]*?does not grant rights to external/iu);
+  assert.match(guidance, /`distributionAllowed` is app safety metadata/iu);
+  assert.match(
+    guidance,
+    /not proof of\s+ownership,\s+license,\s+consent,\s+or redistribution rights/iu,
+  );
+  assert.doesNotMatch(guidance, /`distributionAllowed`[^\n]*authoritative for redistribution/iu);
+  assert.doesNotMatch(`${license}\n${notice}`, /character|distributionAllowed/iu);
+  for (const token of UPSTREAM_ATTRIBUTION_TOKENS) assert.match(notice, new RegExp(token, "iu"));
+});
+
 test("rejects dirty source, symlinks, private tokens, and existing output", (context) => {
   const dirty = createRepository(context);
   write(dirty.root, "README.md", "uncommitted\n");

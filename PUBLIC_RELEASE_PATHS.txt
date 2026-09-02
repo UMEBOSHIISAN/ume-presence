@@ -18,6 +18,7 @@ docs/DEVELOPMENT.md
 docs/INSTALLATION.md
 docs/INTEGRATIONS.md
 docs/RELEASING.md
+docs/images/default-presence.png
 electron/aivis-engine-adapter.cjs
 electron/aivis-engine-adapter.test.cjs
 electron/aivis-profile.cjs
