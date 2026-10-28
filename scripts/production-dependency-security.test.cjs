@@ -109,8 +109,8 @@ test("lockfile v3 preserves the frozen production dependency graph and ranges", 
   assert.notEqual(sdk.dev, true);
   assert.notEqual(ajv.dev, true);
 
-  assert.equal(root.dependencies?.["@modelcontextprotocol/sdk"], "^1.30.0");
-  assert.equal(sdk.version, "1.30.0");
+  assert.equal(root.dependencies?.["@modelcontextprotocol/sdk"], "^1.32.2");
+  assert.equal(sdk.version, "1.32.2");
   assert.equal(sdk.dependencies?.ajv, "^8.17.1");
   assert.equal(sdk.dependencies?.hono, "^4.11.4");
   assert.equal(ajv.version, "8.20.0");
