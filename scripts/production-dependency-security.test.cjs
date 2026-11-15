@@ -11,6 +11,7 @@ const lock = JSON.parse(fs.readFileSync(lockPath, "utf8"));
 const requirements = {
   "fast-uri": { floor: "3.1.4", major: 3 },
   hono: { floor: "4.12.33", major: 4 },
+  zod: { floor: "4.6.7", major: 4 },
 };
 
 function parseStableVersion(version) {
@@ -92,6 +93,16 @@ function assertLeavesAboveFloor(packages, packageName, { floor, major }) {
   }
 }
 
+function assertLeavesAtOrAboveFloor(packages, packageName, { floor, major }) {
+  const leaves = assertStableMajorLeaves(packages, packageName, major);
+  for (const [key, entry] of leaves) {
+    assert.ok(
+      compareVersions(entry.version, floor) >= 0,
+      `${key} must resolve at or above ${floor}`,
+    );
+  }
+}
+
 function fixtureLeaf(version, extra = {}) {
   return { version, ...extra };
 }
@@ -103,12 +114,16 @@ test("lockfile v3 preserves the frozen production dependency graph and ranges", 
   const root = lock.packages[""];
   const sdk = lock.packages["node_modules/@modelcontextprotocol/sdk"];
   const ajv = lock.packages["node_modules/ajv"];
+  const zod = lock.packages["node_modules/zod"];
   assert.ok(root && typeof root === "object");
   assert.ok(sdk && typeof sdk === "object");
   assert.ok(ajv && typeof ajv === "object");
+  assert.ok(zod && typeof zod === "object");
   assert.notEqual(sdk.dev, true);
   assert.notEqual(ajv.dev, true);
+  assert.notEqual(zod.dev, true);
 
+  assert.equal(root.dependencies?.zod, "^4.6.7");
   assert.equal(root.dependencies?.["@modelcontextprotocol/sdk"], "^1.32.2");
   assert.equal(sdk.version, "1.32.2");
   assert.equal(sdk.dependencies?.ajv, "^8.17.1");
@@ -121,11 +136,15 @@ test("lockfile v3 preserves the frozen production dependency graph and ranges", 
 
   const fastUriLeaves = assertStableMajorLeaves(lock.packages, "fast-uri", 3);
   const honoLeaves = assertStableMajorLeaves(lock.packages, "hono", 4);
+  const zodLeaves = assertStableMajorLeaves(lock.packages, "zod", 4);
   for (const [, entry] of fastUriLeaves) {
     assert.equal(satisfiesCaret(entry.version, ajv.dependencies["fast-uri"]), true);
   }
   for (const [, entry] of honoLeaves) {
     assert.equal(satisfiesCaret(entry.version, sdk.dependencies.hono), true);
+  }
+  for (const [, entry] of zodLeaves) {
+    assert.equal(satisfiesCaret(entry.version, root.dependencies.zod), true);
   }
 });
 
@@ -135,6 +154,20 @@ test("production fast-uri entries are stable 3.x releases above 3.1.4", () => {
 
 test("production hono entries are stable 4.x releases above 4.12.33", () => {
   assertLeavesAboveFloor(lock.packages, "hono", requirements.hono);
+});
+
+test("production zod entries are stable 4.x releases at or above 4.6.7", () => {
+  assertLeavesAtOrAboveFloor(lock.packages, "zod", requirements.zod);
+});
+
+test("a zod leaf below the floor is rejected", () => {
+  const packages = {
+    "node_modules/zod": fixtureLeaf("4.4.3"),
+  };
+  assert.throws(
+    () => assertLeavesAtOrAboveFloor(packages, "zod", requirements.zod),
+    /must resolve at or above 4\.6\.7/,
+  );
 });
 
 test("a missing production leaf is rejected", () => {
@@ -186,7 +219,7 @@ test("an unsafe dev duplicate does not hide a safe production leaf", () => {
 });
 
 test("a next-major production leaf is rejected", () => {
-  for (const [packageName, version] of [["fast-uri", "4.0.0"], ["hono", "5.0.0"]]) {
+  for (const [packageName, version] of [["fast-uri", "4.0.0"], ["hono", "5.0.0"], ["zod", "5.0.0"]]) {
     const packages = { [`node_modules/${packageName}`]: fixtureLeaf(version) };
     assert.throws(
       () => assertLeavesAboveFloor(packages, packageName, requirements[packageName]),
